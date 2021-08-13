@@ -25,15 +25,15 @@ int main(void)
     int born = (n / 3);
     int death = (n / 4);
 
-    int years;
+    int y;
     
-    for (years = 1; n >= end; years++)
+    for (y = 1; n < end; y++)
     {
-         n = (n + (born - death) * years);
+         n = n + born - death;
     }
 
 
     // TODO: Print number of years
-   printf("Years: %i\n", years);
+   printf("Years: %i\n", y);
 
 }
