@@ -22,14 +22,11 @@ int main(void)
 
     // TODO: Calculate number of years until we reach threshold
 
-    int born = (n / 3);
-    int death = (n / 4);
-
     int y;
     
-    for (y = 1; n < end; y++)
+    for (y = 0; n < end; y++)
     {
-         n = n + born - death;
+         n = n + (n / 3) - (n / 4);
     }
 
 
