@@ -9,7 +9,7 @@ int main(void)
     {
         n = get_int("What is the starting population size? ");
     }
-    while (n < 10);
+    while (n < 9);
 
     // TODO: Prompt for end size
 
@@ -22,16 +22,18 @@ int main(void)
 
     // TODO: Calculate number of years until we reach threshold
 
-    int y;
+    int born = (n / 3);
+    int death = (n / 4);
+
+    int years;
     
-    for (y = 1; n >= end; y++)
+    for (years = 1; n >= end; years++)
     {
-         n = (n + ((n / 3) - (n / 4)) * y);
-         printf("Years: %i\n", y);
+         n = (n + (born - death) * years);
     }
 
 
     // TODO: Print number of years
- 
+   printf("Years: %i\n", years);
 
 }
