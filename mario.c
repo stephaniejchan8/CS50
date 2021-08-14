@@ -12,10 +12,6 @@ int main(void)
     }
     while (p < 1 || p > 8);
 
-    // acknowledge accepted pyramid height
-
-    printf("Stored: %i\n", p);
-
     // create pyramid
 
     for (int h = 0; h < p; h++)
