@@ -10,7 +10,7 @@ int main(void)
     {
         dollars = get_float("How much change is owed? ");
     }
-    while (dollars < 0.01);
+    while (dollars < 0.009);
 
     int cents = round(dollars * 100);
 
