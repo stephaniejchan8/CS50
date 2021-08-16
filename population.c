@@ -26,11 +26,9 @@ int main(void)
     
     for (y = 0; n < end; y++)
     {
-         n = n + (n / 3) - (n / 4);
+        n = n + (n / 3) - (n / 4);
     }
-
-
+    
     // TODO: Print number of years
-   printf("Years: %i\n", y);
-
+    printf("Years: %i\n", y);
 }
