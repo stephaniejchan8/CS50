@@ -5,8 +5,12 @@
 int main(void)
 
 {
+    // obtain credit card number
+
     long credit;
     credit = get_long("Credit card number: ");
+
+    // obtain credit card digits
 
     long a = credit % 10;
 
@@ -20,7 +24,7 @@ int main(void)
 
     long cc = c / 100;
 
-    long d = (credit - a - b -c) % 10000;
+    long d = (credit - a - b - c) % 10000;
 
     long dd = d / 1000 * 2;
 
@@ -86,11 +90,15 @@ int main(void)
 
     long ppp = pp % 10 + (pp / 10);
 
+    // apply Luhn's algorithm
+
     long sec = bbb + ddd + fff + hhh + jjj + lll + nnn + ppp;
 
     long fir = a + cc + ee + gg + ii + kk + mm + oo;
 
     long total = (fir + sec) % 10;
+
+    // check for card type
 
     long ae = credit / 10000000000000;
 
