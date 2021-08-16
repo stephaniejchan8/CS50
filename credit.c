@@ -104,7 +104,7 @@ int main(void)
     {
         if (ae == 34 || ae == 37)
         {
-            printf("AMERICAN EXPRESS\n");
+            printf("AMEX\n");
         }
         else if (mc > 50 && mc < 56)
         {
@@ -113,6 +113,10 @@ int main(void)
         else if (visa1 == 4 || visa2 == 4)
         {
             printf("VISA\n");
+        }
+        else
+        {
+            printf("INVALID\n");
         }
     }
     else
