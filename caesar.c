@@ -10,6 +10,7 @@ int key_number(string key_string);
 int main(int argc, string argv[])
 {
     // Ask user for correct key
+    // Checks for 1 command line argument
     if (argc != 2)
     {
         printf("Usage: ./caesar key\n");
@@ -34,19 +35,19 @@ int main(int argc, string argv[])
         int c[n];
         for (int i = 0; i < n; i++)
         {
-            if (isupper(plaintext[i]))
+            if (isupper(plaintext[i])) // converting uppercase letters
             {
                 c[i] = ((plaintext[i] - 65 + key) % 26) + 65;
                 printf("%c", (char) c[i]);
             }
-            else if (islower(plaintext[i]))
+            else if (islower(plaintext[i])) // converting lowercase letters
             {
                 c[i] = ((plaintext[i] - 97 + key) % 26) + 97;
                 printf("%c", (char) c[i]);
             }
             else
             {
-                printf("%c", plaintext[i]);
+                printf("%c", plaintext[i]); // printing punctuation
             }
         }
         printf("\n");
