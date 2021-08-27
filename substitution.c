@@ -21,19 +21,19 @@ int main(int argc, string argv[])
     // Check that key is 26 characters only
     else if (strlen(argv[1]) != 26)
     {
-        printf("Usage: ./substitution key\n");
+        printf("Usage: ./substitution key\nKey must contain 26 characters. \n");
         return 1;
     }
     // Check that key is alphabetical only
     else if (alpha_only(argv[1]) == 1)
     {
-        printf("Usage: ./substitution key\n");
+        printf("Usage: ./substitution key\nKey must only contain alphabetic characters. \n");
         return 1;
     }
     // Check that key has no duplicates in alphabet
     else if (full_alpha(argv[1]) != 0)
     {
-        printf("Usage: ./substitution key\n");
+        printf("Usage: ./substitution key\nKey must not contain repeated characters. \n");
         return 1;
     }
     else
@@ -69,7 +69,7 @@ int main(int argc, string argv[])
 
 }
 
-    // Formula: Check that command is alphabetical only
+// Formula: Check that command is alphabetical only
 bool alpha_only(string command)
 {
     int n = strlen(command);
@@ -103,7 +103,8 @@ bool full_alpha(string command2)
     {
         for (int j = i + 1; j < 26; j++)
         {
-            if (command2[i] == command2[j])
+
+            if (tolower(command2[i]) == tolower(command2[j]))
             {
                 x++;
             }
