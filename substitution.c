@@ -1,9 +1,13 @@
 #include <cs50.h>
 #include <stdio.h>
-#include <string.h>
 #include <ctype.h>
+#include <strings.h>
+
+#define _GNU_SOURCE
+#include <string.h>
 
 bool alpha_only(string command);
+bool full_alpha(string command2);
 
 int main(int argc, string argv[])
 {
@@ -21,7 +25,13 @@ int main(int argc, string argv[])
         return 1;
     }
     // Check that key is alphabetical only
-    else if (alpha_only(argv[1]) == 0)
+    else if (alpha_only(argv[1]) == 1)
+    {
+        printf("Usage: ./substitution key\n");
+        return 1;
+    }
+    // Check that key has no duplicates in alphabet
+    else if (full_alpha(argv[1]) != 0)
     {
         printf("Usage: ./substitution key\n");
         return 1;
@@ -59,16 +69,16 @@ int main(int argc, string argv[])
 
 }
 
+    // Formula: Check that command is alphabetical only
 bool alpha_only(string command)
 {
-    // Check that command is alphabetical only
     int n = strlen(command);
     int x = 0;
     for (int i = 0; i < n; i++)
     {
         if (isalpha(command[i]))
         {
-            x = x + 0;
+            x += 0;
         }
         else
         {
@@ -77,10 +87,38 @@ bool alpha_only(string command)
     }
     if (x == 0)
     {
-        return 1;
+        return 0;
     }
     else
     {
+        return 1;
+    }
+}
+
+// Formula: Check that string has no duplicates in alphabet
+bool full_alpha(string command2)
+{
+    int x = 0;
+    for (int i = 0; i < 26; i++)
+    {
+        for (int j = i + 1; j < 26; j++)
+        {
+            if (command2[i] == command2[j])
+            {
+                x++;
+            }
+            else
+            {
+                x += 0;
+            }
+        }
+    }
+    if (x == 0)
+    {
         return 0;
+    }
+    else
+    {
+        return 1;
     }
 }
