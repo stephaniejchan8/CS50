@@ -8,4 +8,4 @@ How do you know?: significantly quicke run time for a random or reversed list, b
 
 sort3 uses: selection sort
 
-How do you know?: slower run time compared to sort 2, but not quicker on a sorted list - corresponds with a selective sort algorithm's theta of n squared.
+How do you know?: slower run time for all compared to sort 2, but not quicker on a sorted list - corresponds with a selective sort algorithm's theta of n squared.
