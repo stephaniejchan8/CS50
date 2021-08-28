@@ -1,11 +1,11 @@
-sort1 uses: bubble sort
+sort1 uses: bubble
 
 How do you know?: it's big omega run time for the sorted50000 file was the quickest of all the sorting methods, also it was significantly faster compared to the run time for random50000 or reversed50000. This is consistent with bubble's run time big O of n squared, versus big omega of n.
 
-sort2 uses: merge sort
+sort2 uses: merge
 
 How do you know?: significantly quicke run time for a random or reversed list, but not significantly faster for the sorted list - which is equivalent to the theta run time of n log n that is characteristic of a merge sort algorithm.
 
-sort3 uses: selective sort
+sort3 uses: selective
 
 How do you know?: slower run time compared to sort 2, but not quicker on a sorted list - corresponds with a selective sort algorithm's theta of n squared.
