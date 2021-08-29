@@ -83,7 +83,7 @@ bool vote(string name)
 void print_winner(void)
 {
     // Array of sorted candidates
-    candidate sorted[MAX];
+    candidate sorted[candidate_count];
     for (int i = 0; i < candidate_count; i++)
     {
         sorted[i].name = candidates[i].name;
@@ -93,11 +93,11 @@ void print_winner(void)
     for (int i = 1; i < candidate_count; i++)
     {
         if (candidates[i].votes > sorted[0].votes)
-            {
-                sorted[0].name = candidates[i].name;
-                sorted[0].votes = candidates[i].votes;
-            }
-    // If there is a tie, include tied winners
+        {
+            sorted[0].name = candidates[i].name;
+            sorted[0].votes = candidates[i].votes;
+        }
+        // Include tied winners
         if (candidates[i].votes == sorted[0].votes && strcmp(candidates[i].name, sorted[0].name) != 0)
         {
             for (int j = 1; j < candidate_count; j++)
@@ -115,10 +115,16 @@ void print_winner(void)
             }
         }
     }
-    if (sorted[0].votes > sorted[1].votes)
+    // Print out winner
+    if (sorted[0].votes == 0)
+    {
+        printf("Zero valid votes.");
+    }
+    else if (sorted[0].votes > sorted[1].votes)
     {
         printf("%s\n", sorted[0].name);
     }
+    // Or print out tied winners
     else if (sorted[0].votes == sorted[1].votes)
     {
         printf("%s\n", sorted[0].name);
