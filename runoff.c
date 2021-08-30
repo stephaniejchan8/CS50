@@ -140,7 +140,9 @@ bool vote(int voter, int rank, string name)
             for (int j = 0; j < rank; j++)
             {
                 if (preferences[voter][j] == i)
+                {
                     return false;
+                }
             }
             return true;
         }
@@ -175,7 +177,9 @@ bool print_winner(void)
     for (int i = 0; i < candidate_count - 1; i++)
     {
         if (candidates[i].votes > highest_score)
-                highest_score = candidates[i].votes;
+        {
+            highest_score = candidates[i].votes;
+        }
     }
 
     // Determine if minimum numbers of votes to win has been reached
@@ -215,7 +219,9 @@ bool is_tie(int min)
     for (int i = 0; i < candidate_count; i++)
     {
         if (!candidates[i].eliminated && candidates[i].votes != min)
+        {
             return false;
+        }
     }
     return true;
 }
