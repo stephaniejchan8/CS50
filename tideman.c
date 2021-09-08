@@ -171,10 +171,6 @@ void sort_pairs(void)
             }
         }
     }
-    for (int i = 0; i < pair_count; i++)
-    {
-        printf("Pair %i winner is %s and loser is %s\n", i, candidates[pairs[i].winner], candidates[pairs[i].loser]);
-    }
     return;
 }
 
@@ -186,25 +182,11 @@ void lock_pairs(void)
     for (int i = 2; i < pair_count; i++)
     {
         int unlocked_pair = i;
-        printf("unlocked pair: %i\n", i);
-        printf("original loop: perform check_locked function on pair %i and query pair %i\n", i, unlocked_pair);
         if (check_locked(i, unlocked_pair) == true)
         {
             locked[pairs[unlocked_pair].winner][pairs[unlocked_pair].loser] = true;
         }
     }
-    for (int i = 0; i < pair_count; i++)
-    {
-        if (locked[pairs[i].winner][pairs[i].loser] == true)
-        {
-            printf("Pair %i is locked\n", i);
-        }
-        else if (locked[pairs[i].winner][pairs[i].loser] == false)
-        {
-            printf("Pair %i is NOT locked\n", i);
-        }
-    }
-
     return;
 }
 
@@ -230,31 +212,27 @@ void print_winner(void)
 // RECURSION
 bool check_locked(int first_pair, int unlocked_pair)
 {
-    printf("unlocked pair is %i\n", unlocked_pair);
     for (int second_pair = 0; second_pair < unlocked_pair; second_pair++)
     {
-        printf("Checking pair %i loser against pair %i winner\n", first_pair, second_pair);
         if (pairs[first_pair].loser == pairs[second_pair].winner)
         {
-            printf("%i loser is the same as %i winner.\n", first_pair, second_pair);
             if (locked[pairs[second_pair].winner][pairs[second_pair].loser] == true)
             {
-                printf("%i pair is locked.\n", second_pair);
                 if (pairs[second_pair].loser == pairs[unlocked_pair].winner)
                 {
-                    printf("Cannot lock %i pair as it's winner is %i loser\n", unlocked_pair, second_pair);
                     return false;
                 }
                 else
                 {
-                    printf("repeat check locked function on pairs %i and query pair %i.\n", second_pair, unlocked_pair);
                     if (check_locked(second_pair, unlocked_pair) == false)
-                    return false;
+                    {
+                        return false;
+                    }
+
                 }
             }
         }
     }
-    printf("no cycle exists, can lock query pair %i\n", unlocked_pair);
     return true;
 }
 
