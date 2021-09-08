@@ -267,7 +267,6 @@ bool check_winner(int pair)
             return false;
         }
     }
-    int x = pairs[pair].winner;
-    printf("%s\n", candidates[x]);
+    printf("%s\n", candidates[pairs[pair].winner]);
     return true;
 }
