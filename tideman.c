@@ -200,7 +200,7 @@ void print_winner(void)
         {
             if (check_winner(i) == true)
             {
-                printf("%s\n", candidates[pairs[i].winner]);
+                printf("%s\n ", candidates[pairs[i].winner]);
                 return;
             }
         }
