@@ -222,6 +222,7 @@ void check_locked(int first_pair, int unlocked_pair)
                 if (pairs[second_pair].loser == pairs[unlocked_pair].winner)
                 {
                     printf("Cannot lock %i pair as it's winner is %i loser\n", unlocked_pair, second_pair);
+                    locked[pairs[unlocked_pair].winner][pairs[unlocked_pair].loser] = false;
                     return;
                 }
                 else
