@@ -216,7 +216,6 @@ void print_winner(void)
     {
         if (locked[pairs[i].winner][pairs[i].loser] == true)
         {
-            printf("checking locked pair %i\n", i);
             if (check_winner(i) == true)
             {
                 printf("%s\n", candidates[pairs[i].winner]);
