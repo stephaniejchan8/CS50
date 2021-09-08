@@ -228,7 +228,8 @@ void check_locked(int first_pair, int unlocked_pair)
                 else
                 {
                     printf("repeat check locked function on pairs %i and query pair %i.\n", second_pair, unlocked_pair);
-                    return check_locked(second_pair, unlocked_pair);
+                    check_locked(second_pair, unlocked_pair);
+                    return;
                 }
             }
         }
