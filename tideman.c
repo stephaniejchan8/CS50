@@ -135,12 +135,14 @@ void add_pairs(void)
     {
         for (int j = i + 1; j < candidate_count; j++)
         {
+            // If candidate i is preferred over j
             if (preferences[i][j] > preferences[j][i])
             {
                 pairs[pair_count].winner = i;
                 pairs[pair_count].loser = j;
                 pair_count++;
             }
+            // If candidate j is preferred over i
             if (preferences[i][j] < preferences[j][i])
             {
                 pairs[pair_count].winner = j;
@@ -161,6 +163,7 @@ void sort_pairs(void)
         {
             if (preferences[pairs[i].winner][pairs[i].loser] < preferences[pairs[j].winner][pairs[j].loser])
             {
+                // Create temporary winner and loser value to sort data without data getting lost/replaced
                 int temp_winner = pairs[i].winner;
                 int temp_loser = pairs[i].loser;
                 pairs[i].winner = pairs[j].winner;
@@ -180,11 +183,12 @@ void lock_pairs(void)
     locked[pairs[1].winner][pairs[1].loser] = true;
     for (int i = 2; i < pair_count; i++)
     {
+        // Use recursive function to check for cycles
         int unlocked_pair = i;
         if (check_locked(i, unlocked_pair) == true)
         {
+            // If pair will not cause cycle, then lock this pair.
             locked[pairs[unlocked_pair].winner][pairs[unlocked_pair].loser] = true;
-            printf("locked %s --> %s\n", candidates[pairs[unlocked_pair].winner], candidates[pairs[unlocked_pair].loser]);
         }
     }
     return;
@@ -200,11 +204,13 @@ void print_winner(void)
         int x = 0;
         for (int j = 0; j < pair_count; j++)
         {
+            // Check locked matrix to see which candidate is never locked in as a loser
             if (locked[j][i] == false)
             {
                 x++;
                 if (x == pair_count)
                 {
+                    // Print winner
                     printf("%s\n", candidates[i]);
                     return;
                 }
@@ -215,29 +221,31 @@ void print_winner(void)
 }
 
 
-// RECURSION
+// RECURSION function to check for cycles in locking pairs
 bool check_locked(int first_pair, int unlocked_pair)
 {
     for (int second_pair = 0; second_pair < unlocked_pair; second_pair++)
     {
-        if (pairs[first_pair].loser == pairs[second_pair].winner)
+        // Check if the loser of last pair in cycle is the winner of another locked pair
+        if (pairs[first_pair].loser == pairs[second_pair].winner && locked[pairs[second_pair].winner][pairs[second_pair].loser] == true)
         {
-            if (locked[pairs[second_pair].winner][pairs[second_pair].loser] == true)
+            // Check if this cycle returns to subject pair
+            if (pairs[second_pair].loser == pairs[unlocked_pair].winner)
             {
-                if (pairs[second_pair].loser == pairs[unlocked_pair].winner)
+                return false;
+            }
+            else
+            {
+                // Recursion to keep checking if cycle created with subject pair
+                if (check_locked(second_pair, unlocked_pair) == false)
                 {
+                    // Cycle created if pair is locked
                     return false;
                 }
-                else
-                {
-                    if (check_locked(second_pair, unlocked_pair) == false)
-                    {
-                        return false;
-                    }
 
-                }
             }
         }
     }
+    // no cycle created if pair is locked
     return true;
 }
