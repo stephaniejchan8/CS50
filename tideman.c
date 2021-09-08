@@ -35,7 +35,6 @@ void sort_pairs(void);
 void lock_pairs(void);
 bool check_locked(int first_pair, int unlocked_pair);
 void print_winner(void);
-bool check_winner(int pair);
 
 int main(int argc, string argv[])
 {
@@ -185,6 +184,7 @@ void lock_pairs(void)
         if (check_locked(i, unlocked_pair) == true)
         {
             locked[pairs[unlocked_pair].winner][pairs[unlocked_pair].loser] = true;
+            printf("locked %s --> %s\n", candidates[pairs[unlocked_pair].winner], candidates[pairs[unlocked_pair].loser]);
         }
     }
     return;
@@ -194,14 +194,20 @@ void lock_pairs(void)
 // Print the winner of the election
 void print_winner(void)
 {
+
     for (int i = 0; i < pair_count; i++)
     {
-        if (locked[pairs[i].winner][pairs[i].loser] == true)
+        int x = 0;
+        for (int j = 0; j < pair_count; j++)
         {
-            if (check_winner(i) == true)
+            if (locked[j][i] == false)
             {
-                printf("%s\n ", candidates[pairs[i].winner]);
-                return;
+                x++;
+                if (x == pair_count)
+                {
+                    printf("%s\n", candidates[i]);
+                    return;
+                }
             }
         }
     }
@@ -231,18 +237,6 @@ bool check_locked(int first_pair, int unlocked_pair)
 
                 }
             }
-        }
-    }
-    return true;
-}
-
-bool check_winner(int pair)
-{
-    for (int i = 0; i < pair_count; i++)
-    {
-        if (locked[pairs[i].winner][pairs[i].loser] == true && pairs[pair].winner == pairs[i].loser)
-        {
-            return false;
         }
     }
     return true;
