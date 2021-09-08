@@ -230,12 +230,6 @@ void check_locked(int first_pair, int unlocked_pair)
                     return check_locked(second_pair, unlocked_pair);
                 }
             }
-            else
-            {
-                printf("pair %i is unlocked, can lock query pair %i\n", second_pair, unlocked_pair);
-                locked[pairs[unlocked_pair].winner][pairs[unlocked_pair].loser] = true;
-                return;
-            }
         }
     }
     locked[pairs[unlocked_pair].winner][pairs[unlocked_pair].loser] = true;
