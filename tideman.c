@@ -33,7 +33,7 @@ void record_preferences(int ranks[]);
 void add_pairs(void);
 void sort_pairs(void);
 void lock_pairs(void);
-bool check_locked(int first_pair, int unlocked_pair);
+bool check_locked(int winner, int loser);
 void print_winner(void);
 
 int main(int argc, string argv[])
@@ -184,11 +184,10 @@ void lock_pairs(void)
     for (int i = 2; i < pair_count; i++)
     {
         // Use recursive function to check for cycles
-        int unlocked_pair = i;
-        if (check_locked(i, unlocked_pair) == true)
+        if (check_locked(pairs[i].winner, pairs[i].loser) == true)
         {
             // If pair will not cause cycle, then lock this pair.
-            locked[pairs[unlocked_pair].winner][pairs[unlocked_pair].loser] = true;
+            locked[pairs[i].winner][pairs[i].loser] = true;
         }
     }
     return;
@@ -222,22 +221,22 @@ void print_winner(void)
 
 
 // RECURSION function to check for cycles in locking pairs
-bool check_locked(int first_pair, int unlocked_pair)
+bool check_locked(int winner, int loser)
 {
-    for (int second_pair = 0; second_pair < unlocked_pair; second_pair++)
+    for (int cycle_winner = 0; cycle_winner < candidate_count; cycle_winner++)
     {
         // Check if the loser of last pair in cycle is the winner of another locked pair
-        if (pairs[first_pair].loser == pairs[second_pair].winner && locked[pairs[second_pair].winner][pairs[second_pair].loser] == true)
+        if (locked[cycle_winner][winner] == true)
         {
             // Check if this cycle returns to subject pair
-            if (pairs[second_pair].loser == pairs[unlocked_pair].winner)
+            if (cycle_winner == loser)
             {
                 return false;
             }
             else
             {
                 // Recursion to keep checking if cycle created with subject pair
-                if (check_locked(second_pair, unlocked_pair) == false)
+                if (check_locked(cycle_winner, loser) == false)
                 {
                     // Cycle created if pair is locked
                     return false;
