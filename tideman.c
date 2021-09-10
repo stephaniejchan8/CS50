@@ -225,17 +225,17 @@ bool check_locked(int winner, int loser)
 {
     for (int cycle_winner = 0; cycle_winner < candidate_count; cycle_winner++)
     {
-        // Check if the loser of last pair in cycle is the winner of another locked pair
+        // check if the winner is a locked loser
         if (locked[cycle_winner][winner] == true)
         {
-            // Check if this cycle returns to subject pair
+            // if so, check if the winner is the unlocked loser i.e. would make a cycle
             if (cycle_winner == loser)
             {
                 return false;
             }
             else
             {
-                // Recursion to keep checking if cycle created with subject pair
+                // Recursion to keep checking if cycle created with unlocked pair
                 if (check_locked(cycle_winner, loser) == false)
                 {
                     // Cycle created if pair is locked
