@@ -56,5 +56,4 @@ int main(int argc, char *argv[])
     fclose(input);
     fclose(output);
     free(sample);
-    return 0;
 }
