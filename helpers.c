@@ -108,19 +108,21 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     int pixels = 0;
 
 
-    // Calculate colour average of the non-border pixels
+    // Calculate colour average of pixels
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
             for (int y = i - 1; y <= i + 1 && y < height; y++)
             {
+                // Cannot obtain pixel outside of image matrix (for edge pixels)
                 if (y < 0)
                 {
                     y = 0;
                 }
                 for (int x = j - 1; x <= j + 1 && x < width; x++)
                 {
+                    // Cannot obtain pixel outside of image matrix (for edge pixels)
                     if (x < 0)
                     {
                         x = 0;
