@@ -3,7 +3,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-int average(double totalColour, float noPixels);
+int average(double totalColour, int noPixels);
 
 // Convert image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
@@ -97,6 +97,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     RGBTRIPLE(*avg)[width] = calloc(height, width * sizeof(RGBTRIPLE));
     if (avg == NULL)
     {
+        printf("Could not make a new matrix 'avg'.");
         return;
     }
 
@@ -104,198 +105,41 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     double totalBlue = 0;
     double totalGreen = 0;
     double totalRed = 0;
+    int pixels = 0;
 
-    // Declare constant variables for calculating average
-    const float CORNER = 4.0;
-    const float EDGE = 6.0;
-    const float CENTRE = 9.0;
-
-    // Calculate colour averages of top left corner pixel
-    for (int i = 0; i <= 1; i++)
-    {
-        for (int j = 0; j <= 1; j++)
-        {
-            totalBlue += image[i][j].rgbtBlue;
-            totalGreen += image[i][j].rgbtGreen;
-            totalRed += image[i][j].rgbtRed;
-        }
-    }
-    avg[0][0].rgbtBlue = average(totalBlue, CORNER);
-    avg[0][0].rgbtRed = average(totalRed, CORNER);
-    avg[0][0].rgbtGreen = average(totalGreen, CORNER);
-
-    // Reset common variables
-    totalBlue = 0;
-    totalGreen = 0;
-    totalRed = 0;
-
-    // Calculate colour averages of top right corner pixel
-    for (int i = 0; i <= 1; i++)
-    {
-        for (int j = width - 2; j < width; j++)
-        {
-            totalBlue += image[i][j].rgbtBlue;
-            totalGreen += image[i][j].rgbtGreen;
-            totalRed += image[i][j].rgbtRed;
-        }
-    }
-    avg[0][width - 1].rgbtBlue = average(totalBlue, CORNER);
-    avg[0][width - 1].rgbtRed = average(totalRed, CORNER);
-    avg[0][width - 1].rgbtGreen = average(totalGreen, CORNER);
-
-    // Reset common variables
-    totalBlue = 0;
-    totalGreen = 0;
-    totalRed = 0;
-
-    // Calculate colour averages of bottom left corner pixel
-    for (int i = height - 1; i >= height - 2; i--)
-    {
-        for (int j = 0; j <= 1; j++)
-        {
-            totalBlue += image[i][j].rgbtBlue;
-            totalGreen += image[i][j].rgbtGreen;
-            totalRed += image[i][j].rgbtRed;
-        }
-    }
-    avg[height - 1][0].rgbtBlue = average(totalBlue, CORNER);
-    avg[height - 1][0].rgbtRed = average(totalRed, CORNER);
-    avg[height - 1][0].rgbtGreen = average(totalGreen, CORNER);
-
-    // Reset common variables
-    totalBlue = 0;
-    totalGreen = 0;
-    totalRed = 0;
-
-    // Calculate colour averages of bottom right corner pixel
-    for (int i = height - 1; i >= height - 2; i--)
-    {
-        for (int j = width - 1; j >= width - 2; j--)
-        {
-            totalBlue += image[i][j].rgbtBlue;
-            totalGreen += image[i][j].rgbtGreen;
-            totalRed += image[i][j].rgbtRed;
-        }
-    }
-    avg[height - 1][width - 1].rgbtBlue = average(totalBlue, CORNER);
-    avg[height - 1][width - 1].rgbtRed = average(totalRed, CORNER);
-    avg[height - 1][width - 1].rgbtGreen = average(totalGreen, CORNER);
-
-    // Reset common variables
-    totalBlue = 0;
-    totalGreen = 0;
-    totalRed = 0;
-
-    // Calculate colour averages of the top border pixels
-    for (int j = 1; j < width - 1; j++)
-    {
-        for (int y = 0; y <= 1; y++)
-        {
-            for (int x = j - 1; x <= j + 1; x++)
-            {
-                totalBlue += image[y][x].rgbtBlue;
-                totalGreen += image[y][x].rgbtGreen;
-                totalRed += image[y][x].rgbtRed;
-            }
-        }
-        avg[0][j].rgbtBlue = average(totalBlue, EDGE);
-        avg[0][j].rgbtGreen = average(totalGreen, EDGE);
-        avg[0][j].rgbtRed = average(totalRed, EDGE);
-
-        // Reset common variables
-        totalBlue = 0;
-        totalGreen = 0;
-        totalRed = 0;
-    }
-
-    // Calculate colour averages of the bottom border pixels
-    for (int j = 1; j < width - 1; j++)
-    {
-        for (int y = height - 1; y >= height - 2; y--)
-        {
-            for (int x = j - 1; x <= j + 1; x++)
-            {
-                totalBlue += image[y][x].rgbtBlue;
-                totalGreen += image[y][x].rgbtGreen;
-                totalRed += image[y][x].rgbtRed;
-            }
-        }
-        avg[height - 1][j].rgbtBlue = average(totalBlue, EDGE);
-        avg[height - 1][j].rgbtGreen = average(totalGreen, EDGE);
-        avg[height - 1][j].rgbtRed = average(totalRed, EDGE);
-
-        // Reset common variables
-        totalBlue = 0;
-        totalGreen = 0;
-        totalRed = 0;
-    }
-
-    // Calculate colour averages of the left border pixels
-    for (int i = 1; i < height - 1; i++)
-    {
-        for (int y = i - 1; y <= i + 1; y++)
-        {
-            for (int x = 0; x <= 1; x++)
-            {
-                totalBlue += image[y][x].rgbtBlue;
-                totalGreen += image[y][x].rgbtGreen;
-                totalRed += image[y][x].rgbtRed;
-            }
-        }
-        avg[i][0].rgbtBlue = average(totalBlue, EDGE);
-        avg[i][0].rgbtGreen = average(totalGreen, EDGE);
-        avg[i][0].rgbtRed = average(totalRed, EDGE);
-
-        // Reset common variables
-        totalBlue = 0;
-        totalGreen = 0;
-        totalRed = 0;
-    }
-
-    // Calculate colour averages of the right border pixels
-    for (int i = 1; i < height - 1; i++)
-    {
-        for (int y = i - 1; y <= i + 1; y++)
-        {
-            for (int x = width - 1; x >= width - 2; x--)
-            {
-                totalBlue += image[y][x].rgbtBlue;
-                totalGreen += image[y][x].rgbtGreen;
-                totalRed += image[y][x].rgbtRed;
-            }
-        }
-        avg[i][width - 1].rgbtBlue = average(totalBlue, EDGE);
-        avg[i][width - 1].rgbtGreen = average(totalGreen, EDGE);
-        avg[i][width - 1].rgbtRed = average(totalRed, EDGE);
-
-        // Reset common variables
-        totalBlue = 0;
-        totalGreen = 0;
-        totalRed = 0;
-    }
 
     // Calculate colour average of the non-border pixels
-    for (int i = 1; i < height - 1; i++)
+    for (int i = 0; i < height; i++)
     {
-        for (int j = 1; j < width - 1; j++)
+        for (int j = 0; j < width; j++)
         {
-            for (int y = i - 1; y <= i + 1; y++)
+            for (int y = i - 1; y <= i + 1 && y < height; y++)
             {
-                for (int x = j - 1; x <= j + 1; x++)
+                if (y < 0)
                 {
+                    y = 0;
+                }
+                for (int x = j - 1; x <= j + 1 && x < width; x++)
+                {
+                    if (x < 0)
+                    {
+                        x = 0;
+                    }
                     totalBlue += image[y][x].rgbtBlue;
                     totalGreen += image[y][x].rgbtGreen;
                     totalRed += image[y][x].rgbtRed;
+                    pixels++;
                 }
             }
-            avg[i][j].rgbtBlue = average(totalBlue, CENTRE);
-            avg[i][j].rgbtGreen = average(totalGreen, CENTRE);
-            avg[i][j].rgbtRed = average(totalRed, CENTRE);
+            avg[i][j].rgbtBlue = average(totalBlue, pixels);
+            avg[i][j].rgbtGreen = average(totalGreen, pixels);
+            avg[i][j].rgbtRed = average(totalRed, pixels);
 
             // Reset common variables
             totalBlue = 0;
             totalGreen = 0;
             totalRed = 0;
+            pixels = 0;
         }
     }
 
@@ -314,7 +158,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 }
 
 // Calculate average for blur function
-int average(double totalColour, float noPixels)
+int average(double totalColour, int noPixels)
 {
     int avgColour = round(totalColour / noPixels);
     return avgColour;
