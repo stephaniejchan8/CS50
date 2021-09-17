@@ -178,12 +178,12 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
                         x = 0;
                         XM = 1;
                     }
-                    sumRedX += image[y][x].rgbtRed * multx[YM][XM];
-                    sumRedY += image[y][x].rgbtRed * multy[YM][XM];
-                    sumBlueX += image[y][x].rgbtBlue * multx[YM][XM];
-                    sumBlueY += image[y][x].rgbtBlue * multy[YM][XM];
-                    sumGreenX += image[y][x].rgbtGreen * multx[YM][XM];
-                    sumGreenY += image[y][x].rgbtGreen * multy[YM][XM];
+                    sumRedX = sumRedX + (image[y][x].rgbtRed * multx[YM][XM]);
+                    sumRedY = sumRedY + (image[y][x].rgbtRed * multy[YM][XM]);
+                    sumBlueX = sumBlueX + (image[y][x].rgbtBlue * multx[YM][XM]);
+                    sumBlueY = sumBlueY + (image[y][x].rgbtBlue * multy[YM][XM]);
+                    sumGreenX = sumGreenX + (image[y][x].rgbtGreen * multx[YM][XM]);
+                    sumGreenY = sumGreenY + (image[y][x].rgbtGreen * multy[YM][XM]);
                     XM++;
                 }
                 YM++;
