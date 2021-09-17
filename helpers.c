@@ -187,6 +187,7 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
                     XM++;
                 }
                 YM++;
+                XM = 0;
             }
             // Assign Sobel values per colour to "edge" copy of image
             edge[i][j].rgbtRed = Sobel(sumRedX, sumRedY);
