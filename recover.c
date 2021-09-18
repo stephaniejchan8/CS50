@@ -16,7 +16,9 @@ int main(int argc, char *argv[])
     }
 
     // Open forensic file
-    FILE* infile = fopen(argv[1], "r");
+    FILE *infile = fopen(argv[1], "r");
+
+    // Terminate program if insufficient memory
     if (infile == NULL)
     {
         printf("Unable to allocate memory for forensic file.\n");
@@ -25,7 +27,9 @@ int main(int argc, char *argv[])
     }
 
     // Create a FAT buffer
-    BYTE* FAT = malloc(512 * sizeof(BYTE));
+    BYTE *FAT = malloc(512 * sizeof(BYTE));
+
+    // Terminate program if insufficient memory
     if (FAT == NULL)
     {
         printf("Could not allocate memory for FAT buffer.\n");
@@ -34,11 +38,13 @@ int main(int argc, char *argv[])
         return 2;
     }
 
-    // Open output file
+    // Outfile naming protocol
     char name[9];
     int n = 0;
-    sprintf(name, "00%i.jpg", n);
-    FILE* outfile = fopen(name, "w");
+    sprintf(name, "%03i.jpg", n);
+    // Create outfile
+    FILE *outfile = fopen(name, "w");
+    // Terminate program if insufficient memory
     if (outfile == NULL)
     {
         printf("Insufficient memory for outfile\n");
@@ -48,47 +54,32 @@ int main(int argc, char *argv[])
         return 2;
     }
 
+    // Search infile for first instance of jpg signature
     do
     {
         fread(FAT, sizeof(BYTE), 512, infile);
     }
-    while(!signature(FAT[0], FAT[1], FAT[2], FAT[3]));
+    while (!signature(FAT[0], FAT[1], FAT[2], FAT[3]));
+
+    // Write first FAT of jpg
     fwrite(FAT, sizeof(BYTE), 512, outfile);
 
+    // Continue copying jpg
     while (fread(FAT, sizeof(BYTE), 512, infile))
     {
+        // Check if this FAT has jpg signature, indicating new jpg
         if (signature(FAT[0], FAT[1], FAT[2], FAT[3]))
         {
             fclose(outfile);
+            // Follow outfile naming protocol
             n++;
-            if (n < 10)
-            {
-                sprintf(name, "00%i.jpg", n);
-                outfile = fopen(name, "w");
-            }
-            else if (n >= 10 && n < 100)
-            {
-                sprintf(name, "0%i.jpg", n);
-                outfile = fopen(name, "w");
-            }
-            else
-            {
-                sprintf(name, "%i.jpg", n);
-                outfile = fopen(name, "w");
-            }
-
-            if (outfile == NULL)
-            {
-                printf("Insufficient memory for outfile\n");
-                fclose(outfile);
-                fclose(infile);
-                free(FAT);
-                return 2;
-            }
+            sprintf(name, "%03i.jpg", n);
+            outfile = fopen(name, "w");
         }
         fwrite(FAT, sizeof(BYTE), 512, outfile);
     }
 
+    // Finished looking at infile
     fclose(infile);
     fclose(outfile);
     free(FAT);
@@ -96,6 +87,7 @@ int main(int argc, char *argv[])
 
 }
 
+// Function to check for jpg signature
 bool signature(BYTE data0, BYTE data1, BYTE data2, BYTE data3)
 {
     if (data0 == 0xff && data1 == 0xd8 && data2 == 0xff && data3 >= 0xe0 && data3 <= 0xef)
